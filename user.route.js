@@ -1,0 +1,11 @@
+const express = require('express')
+const app = express()
+app.use(express.json())
+const userController = require('../controllers/user.controller')
+let { validateUser } = require('../middlewares/user-validation')
+const {authorize} = require('../controllers/auth.controller')
+app.post('/', [validateUser],[authorize],userController.addUser)
+app.put('/:id',[authorize],userController.updateUser)
+app.get('/:id',[authorize],userController.getUserById)
+app.delete("/:id",[authorize],userController.deleteUser)
+module.exports = app
